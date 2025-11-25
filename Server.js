@@ -1,33 +1,25 @@
+// server.js
 const express = require("express");
-const client = require("./pg"); // 
+const cors = require("cors");
+const { sequelize } = require("./db");
+const vehicleRoutes = require("./Routes/Addvehicale");
 
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
 
-app.use(express.json());
+// Middleware
+app.use(cors());
+app.use(express.json()); // Important to parse JSON body
 
-app.get("/", async (req, res) => {
-    try {
-        const result = await client.query("SELECT NOW()");
-        res.json({
-            message: "Server is running!",
-            dbTime: result.rows[0].now
-        });
-    } catch (err) {
-        console.error(err.stack);
-        res.status(500).send("Database query error");
-    }
-});
 
-async function getdata() {
+// Routes
+app.use("/api/vehicle", vehicleRoutes);
 
-    const res= await client.query("select * from test; ")
-    console.log(res);
-    
-}
 
-getdata();
-
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+// Sync database and start server
+sequelize.sync({ alter: true }) // keep alter: true for dev
+  .then(() => {
+    console.log("Database synced!");
+    app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+  })
+  .catch(err => console.error("DB sync error:", err));

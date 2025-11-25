@@ -48,3 +48,5 @@ yarn.lock
 
 # Nodemon config (if you have temp files)
 .nodemon.json
+
+/generated/prisma
