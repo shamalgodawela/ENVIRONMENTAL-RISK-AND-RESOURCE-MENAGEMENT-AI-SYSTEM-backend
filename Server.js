@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const { sequelize } = require("./db");
 const vehicleRoutes = require("./Routes/Addvehicale");
+const mantance = require("./Routes/Mantance");
 const Pm25History = require("../backend/model/Pm25History");
 const Prediction = require("../backend/model/Prediction");
 require("dotenv").config();
@@ -95,7 +96,7 @@ app.get("/api/predict", async (req, res) => {
 
 // Routes
 app.use("/api/vehicle", vehicleRoutes);
-
+app.use("/api/mantance", mantance);
 
 // Sync database and start server
 sequelize.sync({ alter: true }) // keep alter: true for dev

@@ -8,8 +8,18 @@ router.post("/add", vehicleController.createVehicle);
 // Get all vehicles
 router.get("/", vehicleController.getVehicles);
 
-// Get vehicle by ID
-router.get("/:id", vehicleController.getVehicleById);
+router.put("/update/:vehicleId", vehicleController.updateVehicleMaintenance);
+router.get("/history/:vehicleId", vehicleController.getServiceHistory);
+//router.get("/vehicle-ids", vehicleController.getVehicleIds);
+router.delete("/delete/:vehicleId", vehicleController.deleteVehicleById);
+router.get("/history", vehicleController.getAllServiceHistory);
+
+router.post("/hiadd", vehicleController.addServiceHistory);
+
+
+
+
+
 
 module.exports = router;
 
