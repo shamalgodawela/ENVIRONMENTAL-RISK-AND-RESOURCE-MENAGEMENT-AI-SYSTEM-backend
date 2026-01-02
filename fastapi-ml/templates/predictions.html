@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Heat Risk Predictions</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen p-6">
+
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-6 text-blue-700">
+            🔥 15-Day Heat Risk Predictions
+        </h1>
+
+        <div class="overflow-x-auto shadow-xl rounded-lg bg-white">
+            <table class="min-w-full text-sm text-left text-gray-600">
+                <thead class="bg-blue-600 text-white">
+                    <tr>
+                        <th class="px-4 py-2">Location</th>
+                        <th class="px-4 py-2">Date</th>
+                        <th class="px-4 py-2">Temp Max (°C)</th>
+                        <th class="px-4 py-2">Humidity (%)</th>
+                        <th class="px-4 py-2">Dew (°C)</th>
+                        <th class="px-4 py-2">Solar</th>
+                        <th class="px-4 py-2">Heat Index (°C)</th>
+                        <th class="px-4 py-2">Risk Level</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in predictions %}
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-4 py-2">{{ row.location }}</td>
+                        <td class="px-4 py-2">{{ row.datetime }}</td>
+                        <td class="px-4 py-2">{{ row.tempmax | round(2) }}</td>
+                        <td class="px-4 py-2">{{ row.humidity | round(2) }}</td>
+                        <td class="px-4 py-2">{{ row.dew | round(2) }}</td>
+                        <td class="px-4 py-2">{{ row.solarradiation | round(2) }}</td>
+                        <td class="px-4 py-2 font-semibold">{{ row.heat_index_C | round(2) }}</td>
+
+                        <!-- Risk level with color badges -->
+                        <td class="px-4 py-2">
+                            {% if row.risk_level == "Low" %}
+                                <span class="px-3 py-1 rounded bg-green-100 text-green-800 border border-green-300">Low</span>
+                            {% elif row.risk_level == "Caution" %}
+                                <span class="px-3 py-1 rounded bg-yellow-100 text-yellow-800 border border-yellow-300">Caution</span>
+                            {% elif row.risk_level == "Extreme Caution" %}
+                                <span class="px-3 py-1 rounded bg-orange-100 text-orange-800 border border-orange-300">Extreme Caution</span>
+                            {% elif row.risk_level == "Danger" %}
+                                <span class="px-3 py-1 rounded bg-red-100 text-red-800 border border-red-300">Danger</span>
+                            {% else %}
+                                <span class="px-3 py-1 rounded bg-red-200 text-red-900 border border-red-400">Extreme Danger</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
